@@ -2,25 +2,25 @@ CREATE DATABASE conservation_db;
 
 CREATE TABLE rangers (
     ranger_id SERIAL PRIMARY KEY,
-    name VARCHAR(70),
-    region VARCHAR(100)
+    name VARCHAR(70) NOT NULL,
+    region VARCHAR(100) NOT NULl
 );
 
 CREATE TABLE species (
     species_id SERIAL PRIMARY KEY,
-    common_name VARCHAR(70),
-    scientific_name VARCHAR(70),
-    discovery_date DATE,
-    conservation_status VARCHAR(50)
+    common_name VARCHAR(70) NOT NULL,
+    scientific_name VARCHAR(70) NOT NULL,
+    discovery_date DATE NOT NULL,
+    conservation_status VARCHAR(50) NOT NULL
 );
 
 CREATE Table sightings (
     sighting_id SERIAL PRIMARY KEY,
     ranger_id INTEGER REFERENCES rangers (ranger_id),
     species_id INTEGER REFERENCES species (species_id),
-    sighting_time Date,
-    location VARCHAR(100),
-    notes VARCHAR(150) DEFAULT ''
+    sighting_time TIMESTAMP NOT NULL DEFAULT NOW(),
+    location VARCHAR(100) NOT NULL,
+    notes TEXT
 );
 
 INSERT INTO
@@ -107,4 +107,53 @@ VALUES (
         NULL
     );
 
-SELECT * FROM sightings;
+-- Problem 1
+INSERT INTO
+    rangers (name, region)
+VALUES ('Derek Fox', 'Coastal Plains');
+
+-- Problem 2
+SELECT count(DISTINCT species_id) as unique_species_count
+FROM sightings;
+
+-- Problem 3
+SELECT * FROM sightings WHERE location ILIKE '%Pass%';
+
+-- Problem 4
+SELECT rangers.name, count(sightings.sighting_id) as total_sightings
+FROM rangers
+    LEFT JOIN sightings ON rangers.ranger_id = sightings.ranger_id
+GROUP BY
+    rangers.name;
+
+-- Problem 5
+SELECT common_name
+FROM species
+WHERE
+    species_id NOT IN (
+        SELECT species_id
+        FROM sightings
+    );
+
+-- Problem 7
+UPDATE species
+SET
+    conservation_status = 'Historic'
+WHERE
+    discovery_date < '1800-01-01';
+
+-- Problem 8
+SELECT
+    sighting_id,
+    CASE
+        WHEN EXTRACT(
+            HOUR
+            FROM sighting_time
+        ) < 12 THEN 'Morning'
+        WHEN EXTRACT(
+            HOUR
+            FROM sighting_time
+        ) BETWEEN 12 AND 17  THEN 'Afternoon'
+        ELSE 'Evening'
+    END AS time_of_day
+FROM sightings;
