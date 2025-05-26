@@ -1,3 +1,4 @@
+-- Active: 1747476068212@@127.0.0.1@5432@conservation_db
 CREATE DATABASE conservation_db;
 
 CREATE TABLE rangers (
@@ -135,6 +136,15 @@ WHERE
         FROM sightings
     );
 
+-- Problem 6
+SELECT sp.common_name, si.sighting_time, r.name
+FROM
+    sightings si
+    JOIN species sp ON si.species_id = sp.species_id
+    JOIN rangers r ON si.ranger_id = r.ranger_id
+ORDER BY si.sighting_time DESC
+LIMIT 2;
+
 -- Problem 7
 UPDATE species
 SET
@@ -157,3 +167,13 @@ SELECT
         ELSE 'Evening'
     END AS time_of_day
 FROM sightings;
+
+-- Problem 9
+
+DELETE FROM rangers
+WHERE
+    ranger_id NOT IN (
+        SELECT DISTINCT
+            ranger_id
+        from sightings
+    );
