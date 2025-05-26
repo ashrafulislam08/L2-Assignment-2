@@ -17,3 +17,88 @@ PostgreSQL এর অনেক ল্যাঙ্গুয়েজ সাপোর
 - Perl
 - Go
 - Tcl
+
+## Explain the **Primary Key** and **Foreign Key** concepts in PostgreSQL
+
+Primary key কখনো null হতে পারবে না, Primary key অবশ্যই unique হতে হবে। যে কলাম বা এট্রিবিউট উপরে primary key ডিক্লার করে দিবেন, সেই ভেল্যু গুলো কখনো Null বা Duplicate ভেল্যু হতে পারবে না।
+
+                                       **Student Table**
+
+| id  | name | age |
+| --- | ---- | --- |
+|     |      |     |
+|     |      |     |
+
+এই student table এর Id যদি আমরা Primary key হিসেবে বলে দেই, তাহলে id এর এখানে কখনো Null হতে পারবে না এবং ভেল্যু গুলো Duplicate হতে পারবে না।
+
+কিভাবে আমরা এই টেবিল টা তৈরি করতে পারি? দেখা যাক
+
+```sql
+CREATE TABLE student (
+	id INT PRIMARY KEY,
+	name VARCHAR(20),
+	age INT
+)
+```
+
+আমরা বলে দিছি যে, id এর ডাটা টাইপ টা integer হবে এবং primary key হবে। তার মানে আমার id টা Not Null হবে এবং Unique হতে হবে।
+
+এইটা আরেকটু ভালো ভাবে বোঝার জন্য আমরা কিছু ডাটা ইন্সারট করে দেখতে পারি
+
+```sql
+INSERT INTO student(id, name, age) VALUES (1, 'Ashraful', 10);
+INSERT INTO student(id, name, age) VALUES (1, 'Sam', 18); -- It will throw an error
+INSERT INTO student(id, name, age) VALUES ('Sam', 15); -- Also, it will throw an error because we don't tell the id
+INSERT INTO student(id, name, age) VALUES (2, 'Siam', 20);
+```
+
+আমরা এখানে বলছি student table ভেল্যু গুলা insert করার জন্য
+
+এখানে বলে দিছি যে student table এ id, name and age এর ভেল্যু দিবা
+
+যেখানে আমরা প্রথমে বলে দিছি যে id হবে 1, name হবে Ashraful এবং age হবে 10 ।
+
+দ্বিতীয়বারে আমরা বলে দিছি যে id হবে 1, name হবে Sam এবং age হবে 15 ।
+
+এখানেই আমাদের এরর থ্রো করবে, কারন আমরা জানি যে আমরা যদি কোনো column/attribute কে primary key হিসেবে ডিক্লার করি তখন সেটা null কিংবা duplicate হতে পারবে না।
+
+পরের বার আমরা আইডি না বলেই নাম এবং age দিয়েছি যার কারণে এখানে এরর থ্রো করেছে।
+
+তারপরে যে ডাটা আমরা insert করেছি সেটা ঠিক ভাবে insert হয়েছে।
+
+**Foreign Key**
+
+কোনো একটা টেবিলের primary key যদি অন্য কোনো টেবিলে reference key হিসেবে ব্যবহার করা হয় তাহলে সে key কে বলা হয় Foreign key।
+
+**Example**
+
+```sql
+CREATE TABLE sections (
+	section_id int primary key,
+	section_name varchar(20)
+);
+
+CREATE TABLE student (
+		id int primary key,
+		name varchar(20),
+		section_id int REFERENCES sections(section_id);
+)
+```
+
+         **Sections Table**
+
+| section_id | section_name |
+| ---------- | ------------ |
+| 1          | A            |
+| 2          | B            |
+
+                                        **Student Table**
+
+| id  | name     | age | section_id |
+| --- | -------- | --- | ---------- |
+| 1   | Ashraful | 20  | 1          |
+| 2   | Siam     | 19  | 2          |
+| 3   | Karim    | 42  | 1          |
+| 4   | Jarim    | 31  | 2          |
+
+তার মানে আমরা যে section_id নিলাম সেটার সাথে Sections table একটা references আছে এই রেফারেন্স কে বলা হয় Foreign Key।
