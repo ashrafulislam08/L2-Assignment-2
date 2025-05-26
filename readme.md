@@ -1,4 +1,4 @@
-## What is PostgreSQL?
+## 1. What is PostgreSQL?
 
 PostgreSQL হচ্ছে পাওয়ারফুল,ওপেন সোর্স, অব্জেক্ট রিলেশনাল ডাটাবেজ। এইটা ইন্টারপ্রাইজ ওয়েব এপ্লিক্যাশনের জন্য ব্যবহার করে।
 
@@ -18,7 +18,7 @@ PostgreSQL এর অনেক ল্যাঙ্গুয়েজ সাপোর
 - Go
 - Tcl
 
-## Explain the **Primary Key** and **Foreign Key** concepts in PostgreSQL
+## 2. Explain the **Primary Key** and **Foreign Key** concepts in PostgreSQL
 
 Primary key কখনো null হতে পারবে না, Primary key অবশ্যই unique হতে হবে। যে কলাম বা এট্রিবিউট উপরে primary key ডিক্লার করে দিবেন, সেই ভেল্যু গুলো কখনো Null বা Duplicate ভেল্যু হতে পারবে না।
 
@@ -103,7 +103,7 @@ CREATE TABLE student (
 
 তার মানে আমরা যে section_id নিলাম সেটার সাথে Sections table একটা references আছে এই রেফারেন্স কে বলা হয় Foreign Key।
 
-## How can you modify data using `UPDATE` statements?
+## 3. How can you modify data using `UPDATE` statements?
 
 আমরা update statement এর মাধ্যমে কন্ডিশনালি ডাটা আপডেট করতে পারি।
 
