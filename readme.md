@@ -102,3 +102,36 @@ CREATE TABLE student (
 | 4   | Jarim    | 31  | 2          |
 
 তার মানে আমরা যে section_id নিলাম সেটার সাথে Sections table একটা references আছে এই রেফারেন্স কে বলা হয় Foreign Key।
+
+## How can you modify data using `UPDATE` statements?
+
+আমরা update statement এর মাধ্যমে কন্ডিশনালি ডাটা আপডেট করতে পারি।
+
+মনে করেন আমাদের একটা student table আছে, এবং কিছু স্টুডেন্ট এর তথ্য ভুল দিয়ে ফেলসি এখন এগুলা উপডেট করার জন্য আমরা এই DELETE statement টা ব্যবহার করবো।
+
+ধরুন আমাদের টেবিল টা দেখতে এই রকমঃ
+
+                                        **Student Table**
+
+| id  | name     | age | section_id |
+| --- | -------- | --- | ---------- |
+| 1   | Ashraful | 20  | 1          |
+| 2   | Siam     | 19  | 2          |
+| 3   | Karim    | 42  | 1          |
+| 4   | Jarim    | 31  | 2          |
+
+```sql
+UPDATE student SET name = 'Ashraful Islam' WHERE id = 1;
+```
+
+আপডেট করার শুরুতে আমরা Update keyword টা ব্যবহার করবো এবং update keyword এর পরে বলে দিবো যে কোন টেবিল এর ডাটা আমরা আপডেট করতে চাচ্ছি । তারপর আমরা কোন প্রপার্টি টা উপডেট করবো সেটা SET keyword এর পরে property name এবং ইকুয়াল দিয়ে updated মান টা দিয়ে বলে দিবো
+
+পরবর্তীতে আমরা WHERE দিয়ে কন্ডিশন লিখবো যে আমরা আসলে কোন row এর প্রোপার্টির মান পরিবর্তন করতে চাই।
+
+আমরা চাইলে এক সাথে মাল্টিপল প্রোপার্টির মান/ভেল্যু চেঞ্জ করতে পারি।
+
+```sql
+UPDATE students SET name = 'Siam Hawlader', age = 21 WHERE id = 2;
+```
+
+আমরা এইভাবে চাইলে কমা দিয়ে একাদিক প্রোপার্টির মান/ভেল্যু পরিবর্তন করতে পারি।
