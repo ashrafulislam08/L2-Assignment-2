@@ -186,3 +186,4 @@ SELECT AVG(age) FROM students;
 ```
 
 তাহলে, আমরা এইভাবে এভারেজ বের করতে পারি।
+এইভাবেই আমরা aggregate function ব্যবহার করে AVG(), SUM(), COUNT() করতে প্যাঁরই।
